@@ -10,13 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "my_channel_id";
@@ -30,12 +26,18 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(v->{
           sendNotification();
         });
+
         Button btnLomg = findViewById(R.id.notificationLong);
         btnLomg.setOnClickListener(v->{
             sendNotificationLong();
         });
 
+        Button btnCustom = findViewById(R.id.notificationCustom);
+        btnCustom.setOnClickListener(v->{
+            NotificationHelper.sendNotification(this, this, "Custom","Custom posiwadomienie",2, R.drawable.mountain, R.raw.ding);
+        });
     }
+
     public void createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name = "Kanal Powiadomien";
@@ -70,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendNotificationLong(){
-
-        // zezwolenie na wyslanie powiadomienia
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
             if(checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},1);
