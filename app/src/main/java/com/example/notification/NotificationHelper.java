@@ -21,7 +21,27 @@ public class NotificationHelper {
     private static final String CHANNEL_ID = "default_channel";
     private static final String CHANNEL_NAME = "Kanał Powiadomień";
     private static final int NOTIFICATION_ID = 1;
+    private static final String CHANNEL_ID_LOW = "Channel_low_priority";
+    private static final String CHANNEL_ID_DEFAULT = "Channel_default_priority";
+    private static final String CHANNEL_ID_HIGH = "Channel_high_priority";
     // kanal ma importance wieksza niz same powiadomienia
+
+    public static void createNotificationChannels(Context context){
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            NotificationChannel channelow = new NotificationChannel(CHANNEL_ID_LOW, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel channeldefault = new NotificationChannel(CHANNEL_ID_DEFAULT, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channelhigh = new NotificationChannel(CHANNEL_ID_HIGH, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+
+
+            if(notificationManager!=null){
+                notificationManager.createNotificationChannel(channelow);
+                notificationManager.createNotificationChannel(channeldefault);
+                notificationManager.createNotificationChannel(channelhigh);
+            }
+        }
+
+    }
 
     public static void sendNotification(int NOTIFICATION_ID, int Priority, AppCompatActivity activity, String title, String message, int styleType, Integer largeIconResID, Integer sound){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
@@ -30,24 +50,14 @@ public class NotificationHelper {
                 return;
             }
         }
+
         NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            //priorytet kanalu powiadomien, poniewaz powiadomiana nie dzialaja
-            //trzeba stworzyc kilka kanalow, i wybierac w zaleznosci od potrzebnej importance
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
-            notificationManager.createNotificationChannel(channel);
-            if(sound!=null){
-                Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+activity.getApplicationContext()
-                        .getPackageName()+ "/"+sound);
-                channel.setSound(soundUri, null);
-            }
-        }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle(title) //  \/ make whole text (long, more the two rows) display in message window
                 .setContentText(message)
-                .setPriority(Priority)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 //.setContentIntent(pendingIntent) // po kliknieciu prowadzi do aplikacji
                 .setAutoCancel(true);
 
