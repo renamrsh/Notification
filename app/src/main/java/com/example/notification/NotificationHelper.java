@@ -21,9 +21,9 @@ public class NotificationHelper {
     private static final String CHANNEL_ID = "default_channel";
     private static final String CHANNEL_NAME = "Kanał Powiadomień";
     private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID_LOW = "Channel_low_priority";
-    private static final String CHANNEL_ID_DEFAULT = "Channel_default_priority";
-    private static final String CHANNEL_ID_HIGH = "Channel_high_priority";
+    public static final String CHANNEL_ID_LOW = "Channel_low_priority";
+    public static final String CHANNEL_ID_DEFAULT = "Channel_default_priority";
+    public static final String CHANNEL_ID_HIGH = "Channel_high_priority";
     // kanal ma importance wieksza niz same powiadomienia
 
     public static void createNotificationChannels(Context context){

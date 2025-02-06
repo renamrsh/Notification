@@ -16,6 +16,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "my_channel_id";
+    private static int ID = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,24 +25,26 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn = findViewById(R.id.notification);
         btn.setOnClickListener(v->{
-          sendNotification();
+            NotificationHelper.sendNotification(ID, NotificationHelper.CHANNEL_ID_DEFAULT, this, "Custom",
+                    "Custom posiwadomienie",1, R.drawable.mountain, R.raw.ding);
+            ID++;
         });
 
         Button btnLomg = findViewById(R.id.notificationLong);
         btnLomg.setOnClickListener(v->{
-            NotificationHelper.sendNotification(ID, 1, this, "Custom",
-                    "Custom posiwadomienie",2, R.drawable.mountain, R.raw.ding);
+            NotificationHelper.sendNotification(ID, NotificationHelper.CHANNEL_ID_DEFAULT, this, "Custom",
+                    "Custom posiwadomienie",1, R.drawable.mountain, R.raw.ding);
             ID++;
         });
 
         Button btnCustom = findViewById(R.id.notificationCustom);
         btnCustom.setOnClickListener(v->{
-            NotificationHelper.sendNotification(ID, 1, this, "Custom",
+            NotificationHelper.sendNotification(ID, NotificationHelper.CHANNEL_ID_HIGH, this, "Custom",
                     "Custom posiwadomienie",2, R.drawable.mountain, R.raw.ding);
             ID++;
         });
     }
-
+/*
     public void createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name = "Kanal Powiadomien";
@@ -95,5 +98,5 @@ public class MainActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, builder.build());
     }
-
+*/
 }
